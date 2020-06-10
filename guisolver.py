@@ -141,27 +141,29 @@ class Grid:
         return True
     
     def solved(self):
-        if emp := findEmp(self.model):
-            row,col = emp
-        else:
+        find = findEmp(self.model)
+        if not find:
             return True
+        else:
+            row, col = find
 
         for i in range(1,10):
-            if plausible(self.model,i,row,col):
+            if plausible(self.model,i,(row,col)):
                 self.model[row][col] = i
             
-            if self.solved():
-                return True
+                if self.solved():
+                    return True
             
-            self.model[row][col] = 0
+                self.model[row][col] = 0
         
         return False
     
     def solved_gui(self):
-        if emp := findEmp(self.model):
-                row,col = emp
-        else:
+        find = findEmp(self.model)
+        if not find:
             return True
+        else:
+            row, col = find
 
         for i in range(1,10):
             if plausible(self.model,i,(row,col)):
