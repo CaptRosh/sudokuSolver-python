@@ -166,6 +166,7 @@ class Grid:
             row, col = find
 
         for i in range(1,10):
+            pygame.event.pump()
             if plausible(self.model,i,(row,col)):
                 self.model[row][col] = i
                 self.cubes[row][col].set_val(i)
