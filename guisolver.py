@@ -84,9 +84,10 @@ class Grid:
         if plausible(self.model,val,(row,col)) and self.solved():
             return True
         else:
-            self.cubes[row][col].set_val(0)
-            self.cubes[row][col].set_temp(0)
-            self.update()
+            if self.cubes[row][col].value == 0:
+                self.cubes[row][col].set_val(0)
+                self.cubes[row][col].set_temp(0)
+                self.update()
             return False
     
     def sketch(self,val):
@@ -278,7 +279,7 @@ while run:
 
             if e.key == pygame.K_RETURN:
                 r,c = board.selected
-                if board.cubes[r][c].pencil != 0:
+                if board.cubes[r][c].pencil != 0 or board.cubes[r][c] != 0:
                     if not board.pos(board.cubes[r][c].pencil):
                         strikes += 1
                     key = None
@@ -296,6 +297,12 @@ while run:
     
     if board.selected and key != None:
         board.sketch(key)
+    
+    if strikes == 3:
+        print("3 strikes reached. Algorithm will solve it now.")
+        font = pygame.font.SysFont('Arial',35)
+        win.blit(font.render(("X " * strikes + "Algorithm solving now."),1,(255,0,0)),(20,560))
+        board.solved_gui()
     
     redraw(win,board,play,strikes)
     pygame.display.update()
